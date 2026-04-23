@@ -7,6 +7,7 @@ import { auth, db } from "../../lib/firebase";
 import {
   signInWithEmailAndPassword,
   sendEmailVerification,
+  sendPasswordResetEmail,
   signOut,
 } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
@@ -119,11 +120,39 @@ export default function LoginPage() {
       await sendEmailVerification(user);
       await signOut(auth);
 
-      setMensagem(
-        "Link de verificação reenviado. Confira caixa de entrada, spam e promoções."
-      );
+      setMensagem("Link de verificação reenviado. Confira caixa de entrada, spam e promoções.");
     } catch (error: any) {
       setErro(`Não foi possível reenviar: ${error?.code || "erro desconhecido"}`);
+    } finally {
+      setCarregando(false);
+    }
+  }
+
+  async function redefinirSenha() {
+    setErro("");
+    setMensagem("");
+
+    const emailLimpo = email.trim();
+
+    if (!emailLimpo) {
+      setErro("Digite seu e-mail no campo acima para redefinir a senha.");
+      return;
+    }
+
+    try {
+      setCarregando(true);
+
+      await sendPasswordResetEmail(auth, emailLimpo);
+
+      setMensagem(
+        "Enviamos um link para redefinir sua senha. Verifique sua caixa de entrada, spam e promoções."
+      );
+    } catch (error: any) {
+      if (error.code === "auth/invalid-email") {
+        setErro("E-mail inválido.");
+      } else {
+        setErro("Não foi possível enviar o link de redefinição.");
+      }
     } finally {
       setCarregando(false);
     }
@@ -165,9 +194,18 @@ export default function LoginPage() {
             </div>
 
             <button type="submit" disabled={carregando}>
-              {carregando ? "Entrando..." : "Entrar"}
+              {carregando ? "Carregando..." : "Entrar"}
             </button>
           </form>
+
+          <button
+            type="button"
+            onClick={redefinirSenha}
+            disabled={carregando}
+            className="botao-reenviar"
+          >
+            Esqueci minha senha
+          </button>
 
           <button
             type="button"
