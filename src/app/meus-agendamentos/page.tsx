@@ -4,13 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { db } from "../../lib/firebase";
-import {
-  collection,
-  getDocs,
-  query,
-  where,
-  orderBy,
-} from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 
 type Agendamento = {
   id: string;
@@ -19,20 +13,19 @@ type Agendamento = {
   servicos: string;
   valor: number;
   duracao: number;
-  clienteUid: string;
-  clienteNome: string;
-  clienteEmail: string;
-  clienteWhatsapp: string;
+  clienteUid?: string;
+  clienteNome?: string;
+  clienteEmail?: string;
+  clienteWhatsapp?: string;
 };
 
 export default function MeusAgendamentosPage() {
   const router = useRouter();
-
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    async function carregarMeusAgendamentos() {
+    async function carregar() {
       const tipo = localStorage.getItem("tipoUsuario");
       const clienteSalvo = localStorage.getItem("clienteLogado");
 
@@ -44,24 +37,25 @@ export default function MeusAgendamentosPage() {
       const cliente = JSON.parse(clienteSalvo);
 
       try {
-        const q = query(
-          collection(db, "agendamentos"),
-          where("clienteUid", "==", cliente.uid),
-          orderBy("data", "asc")
-        );
+        const snapshot = await getDocs(collection(db, "agendamentos"));
 
-        const snapshot = await getDocs(q);
-
-        const lista: Agendamento[] = snapshot.docs.map((docSnap) => ({
+        const todos = snapshot.docs.map((docSnap) => ({
           id: docSnap.id,
           ...(docSnap.data() as Omit<Agendamento, "id">),
         }));
 
-        const ordenados = lista.sort((a, b) => {
-          return `${a.data} ${a.horario}`.localeCompare(`${b.data} ${b.horario}`);
+        const meus = todos.filter((ag) => {
+          return (
+            ag.clienteUid === cliente.uid ||
+            ag.clienteEmail === cliente.email
+          );
         });
 
-        setAgendamentos(ordenados);
+        meus.sort((a, b) =>
+          `${a.data} ${a.horario}`.localeCompare(`${b.data} ${b.horario}`)
+        );
+
+        setAgendamentos(meus);
       } catch (error) {
         console.log("Erro ao buscar meus agendamentos:", error);
       } finally {
@@ -69,7 +63,7 @@ export default function MeusAgendamentosPage() {
       }
     }
 
-    carregarMeusAgendamentos();
+    carregar();
   }, [router]);
 
   function formatarData(data: string) {
@@ -88,7 +82,7 @@ export default function MeusAgendamentosPage() {
           <h1 className="titulo-formulario">Meus agendamentos</h1>
 
           <p className="subtitulo-formulario">
-            Veja seus horários marcados na barbearia.
+            Veja todos os horários que você marcou.
           </p>
 
           <Link href="/agendamento" className="botao-link-roxo">
@@ -110,8 +104,8 @@ export default function MeusAgendamentosPage() {
               <p><strong>Serviços:</strong> {ag.servicos}</p>
               <p><strong>Duração:</strong> {ag.duracao} min</p>
               <p><strong>Valor:</strong> R$ {ag.valor}</p>
-              <p><strong>Cliente:</strong> {ag.clienteNome}</p>
-              <p><strong>WhatsApp:</strong> {ag.clienteWhatsapp}</p>
+              <p><strong>Cliente:</strong> {ag.clienteNome || "Não informado"}</p>
+              <p><strong>WhatsApp:</strong> {ag.clienteWhatsapp || "Não informado"}</p>
             </div>
           ))}
         </div>
