@@ -21,8 +21,10 @@ type Agendamento = {
 
 export default function MeusAgendamentosPage() {
   const router = useRouter();
+
   const [agendamentos, setAgendamentos] = useState<Agendamento[]>([]);
   const [carregando, setCarregando] = useState(true);
+  const [clienteAtual, setClienteAtual] = useState<any>(null);
 
   useEffect(() => {
     async function carregar() {
@@ -35,6 +37,10 @@ export default function MeusAgendamentosPage() {
       }
 
       const cliente = JSON.parse(clienteSalvo);
+      setClienteAtual(cliente);
+
+      const uidCliente = cliente.uid || "";
+      const emailCliente = (cliente.email || "").toLowerCase().trim();
 
       try {
         const snapshot = await getDocs(collection(db, "agendamentos"));
@@ -44,10 +50,16 @@ export default function MeusAgendamentosPage() {
           ...(docSnap.data() as Omit<Agendamento, "id">),
         }));
 
+        console.log("CLIENTE LOGADO:", cliente);
+        console.log("TODOS AGENDAMENTOS:", todos);
+
         const meus = todos.filter((ag) => {
+          const uidAgendamento = ag.clienteUid || "";
+          const emailAgendamento = (ag.clienteEmail || "").toLowerCase().trim();
+
           return (
-            ag.clienteUid === cliente.uid ||
-            ag.clienteEmail === cliente.email
+            uidAgendamento === uidCliente ||
+            emailAgendamento === emailCliente
           );
         });
 
@@ -89,11 +101,17 @@ export default function MeusAgendamentosPage() {
             Fazer novo agendamento
           </Link>
 
+          {clienteAtual && (
+            <p style={{ textAlign: "center", color: "#aaa" }}>
+              Logado como: {clienteAtual.email}
+            </p>
+          )}
+
           {carregando && <p>Carregando...</p>}
 
           {!carregando && agendamentos.length === 0 && (
             <p style={{ textAlign: "center", marginTop: "20px" }}>
-              Você ainda não possui agendamentos.
+              Você ainda não possui agendamentos com este login.
             </p>
           )}
 
@@ -105,6 +123,7 @@ export default function MeusAgendamentosPage() {
               <p><strong>Duração:</strong> {ag.duracao} min</p>
               <p><strong>Valor:</strong> R$ {ag.valor}</p>
               <p><strong>Cliente:</strong> {ag.clienteNome || "Não informado"}</p>
+              <p><strong>Email:</strong> {ag.clienteEmail || "Não informado"}</p>
               <p><strong>WhatsApp:</strong> {ag.clienteWhatsapp || "Não informado"}</p>
             </div>
           ))}
