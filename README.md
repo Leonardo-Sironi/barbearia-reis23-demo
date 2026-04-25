@@ -1,36 +1,100 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 💈 Sistema Web de Agendamento para Barbearia
 
-## Getting Started
+Sistema web completo de agendamento desenvolvido com foco em uso real para barbearias, permitindo que clientes agendem horários online e que o barbeiro gerencie sua agenda.
 
-First, run the development server:
+⚠️ Esta é uma versão **DEMO para portfólio**, criada separadamente para testes.  
+O sistema original foi projetado para uso real em ambiente profissional.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Acesse o projeto
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+🔗 https://barbearia-reis23-demo.vercel.app/
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🔑 Acesso para teste
 
-To learn more about Next.js, take a look at the following resources:
+### 👤 Cliente
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Email: leosironi6@gmail.com
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Senha: @Leosironi10
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 💈 Barbeiro (Administrador)
+
+Email: admin@barbearia.com
+
+Senha: teste12345
+
+
+---
+
+## 🧠 Funcionalidades
+
+### 👤 Cliente
+
+- Cadastro de conta com verificação de e-mail
+- Login com autenticação
+- Recuperação de senha
+- Escolha de data com calendário interativo
+- Seleção de múltiplos serviços
+- Cálculo automático de valor e duração
+- Bloqueio de horários ocupados
+- Bloqueio de horários já passados no dia atual
+- Página “Meus agendamentos”
+
+---
+
+### 💈 Barbeiro
+
+- Login administrativo
+- Visualização de agendamentos por data
+- Cancelamento de agendamentos
+- Bloqueio de dia inteiro
+- Bloqueio de horários específicos
+- Controle de disponibilidade em tempo real
+
+---
+
+## 🛠️ Tecnologias utilizadas
+
+- Next.js
+- React
+- TypeScript
+- CSS
+- Firebase Authentication
+- Firestore Database
+- Git
+- GitHub
+- Vercel
+
+---
+
+## 🎯 Objetivo do projeto
+
+Desenvolver um sistema completo de agendamento simulando um ambiente real, aplicando conceitos de:
+
+- Frontend com React e Next.js
+- Gerenciamento de estado
+- Autenticação de usuários
+- Integração com banco de dados (Firestore)
+- Regras de negócio (agenda, horários, bloqueios)
+- Deploy em produção (Vercel)
+
+---
+
+## 📌 Observação
+
+Este projeto é uma **demonstração de portfólio**.  
+Os dados utilizados são apenas para testes e não impactam nenhum sistema real.
+
+---
+
+## 👨‍💻 Autor
+
+Leonardo Sironi  
+GitHub: https://github.com/Leonardo-Sironi
