@@ -17,6 +17,8 @@ O sistema original foi projetado para uso real em ambiente profissional.
 
 ### 👤 Cliente
 
+Criar conta, ou se preferir usar conta de teste:
+
 Email: leosironi6@gmail.com
 
 Senha: @Leosironi10
@@ -91,6 +93,19 @@ Desenvolver um sistema completo de agendamento simulando um ambiente real, aplic
 
 Este projeto é uma **demonstração de portfólio**.  
 Os dados utilizados são apenas para testes e não impactam nenhum sistema real.
+
+---
+---
+
+## 🤖 Uso de Inteligência Artificial
+
+Durante o desenvolvimento deste projeto, utilizei ferramentas de Inteligência Artificial como apoio para:
+
+- Acelerar o aprendizado de conceitos
+- Esclarecer dúvidas técnicas
+- Auxiliar na implementação de algumas funcionalidades
+
+Todo o desenvolvimento, entendimento da lógica, estrutura do sistema e adaptações foram realizados por mim, utilizando a IA como suporte no processo.
 
 ---
 
