@@ -1,27 +1,13 @@
-import Link from "next/link";
-
-export default function HomePage() {
+export default function Home() {
   return (
-    <main className="pagina-home">
-      <div className="card-home">
-        <h1 className="titulo-home">Barbearia Reis23</h1>
-        <p className="subtitulo-home">
-          Escolha como deseja entrar no sistema
-        </p>
+    <main style={{ padding: "40px", textAlign: "center" }}>
+      <h1>barbearia-reis23 (DEMO)</h1>
+      <p>Escolha como deseja entrar</p>
 
-        <div className="botoes-home">
-          <Link href="/login" className="botao-home">
-            Login Cliente
-          </Link>
-
-          <Link href="/cadastro" className="botao-home botao-home-secundario">
-            Criar conta
-          </Link>
-
-          <Link href="/login-barbeiro" className="botao-home">
-            Login Barbeiro
-          </Link>
-        </div>
+      <div style={{ marginTop: "20px" }}>
+        <a href="/login">Login</a><br />
+        <a href="/cadastro">Criar conta</a><br />
+        <a href="/login-barbeiro">Login Barbeiro</a>
       </div>
     </main>
   );
